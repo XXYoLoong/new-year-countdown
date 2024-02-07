@@ -1,6 +1,6 @@
 body {
     font-family: 'Arial', sans-serif; /* 修改字体 */
-    background-color: #000;
+    background-image: url(assets/a.png);
     background-size: cover;
     color: #f5f5f5; /* 修改字体颜色为白色以适应深色背景 */
 }
