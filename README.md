@@ -22,6 +22,3 @@ git clone https://github.com/username/new-year-countdown.git
 
 ## 贡献
 欢迎任何形式的贡献。如果您有任何建议或要报告问题，请通过Issues提出。
-
-## 许可
-暂无许可
