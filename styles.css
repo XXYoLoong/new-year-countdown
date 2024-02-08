@@ -1,8 +1,22 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    min-height: 100%; /* 确保至少有100%的高度 */
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-image: url('assets/a.png');
+    background-image: url('../new-year-countdown/assets/a.png');
     background-size: cover;
+    background-position: center; /* 确保背景图片居中显示 */
     color: #f5f5f5;
+}
+
+#countdown, #greetings, #previewButton {
+    position: relative;
+    z-index: 2; /* 确保这些元素在canvas之上 */
 }
 
 #countdown {
@@ -31,22 +45,12 @@ body {
 }
 
 #fireworksCanvas {
+    background: transparent;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
-}
-
-body, html {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-}
-
-#countdown, #greetings, #previewButton {
-    position: relative;
-    z-index: 2;
+    pointer-events: none; /* 允许鼠标事件穿透canvas */
 }
