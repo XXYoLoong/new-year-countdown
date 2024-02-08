@@ -135,8 +135,23 @@ function createFirework() {
     fireworks.push(new Firework(x, y, color, riseSpeed, particleSize));
 }
 
+function launchFireworks() {
+    const initialFireworks = 10; // 第一次触发时的烟花数量
+
+    // 立即生成初始数量的烟花粒子
+    for (let i = 0; i < initialFireworks; i++) {
+        createFirework();
+    }
+
+    // 定时生成新的烟花粒子
+    const interval = setInterval(() => {
+        createFirework();
+        // 可以在这里添加逻辑来停止生成新的烟花粒子，例如设置一个生成烟花的总数限制
+    }, 1000); // 每隔1秒生成一个新的烟花粒子
+}
+
 // 为预览按钮添加点击事件监听器，用于测试烟花效果
-document.getElementById('previewButton').addEventListener('click', createFirework);
+document.getElementById('previewButton').addEventListener('click', launchFireworks);
 
 // 触发烟花效果的函数，用于在特定条件下（如倒计时结束）启动一系列烟花
 function triggerFireworks() {
@@ -163,7 +178,7 @@ function updateCountdown() {
     if (distance < 0) {
         clearInterval(interval); // 停止倒计时更新
         countdownElement.style.display = 'none'; // 隐藏倒计时显示
-        triggerFireworks(); // 触发烟花效果
+        launchFireworks(); // 使用 launchFireworks 函数触发烟花效果
     }
 }
 
