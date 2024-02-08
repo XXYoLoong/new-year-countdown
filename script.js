@@ -21,13 +21,14 @@ const interval = setInterval(updateCountdown, 1000);
 
 // 定义烟花粒子
 class Particle {
-    constructor(x, y, radius, color, velocity) {
+    constructor(x, y, radius, color, velocity, decay) {
         this.x = x;
         this.y = y;
         this.radius = radius;
         this.color = color;
         this.velocity = velocity;
-        this.alpha = 1; // 初始不透明度为完全不透明
+        this.decay = decay || 0.015; // 粒子消失的速度
+        this.alpha = 1;
     }
 
     draw() {
@@ -40,15 +41,64 @@ class Particle {
         ctx.restore();
     }
 
-    // 更新粒子位置
     update() {
         this.draw();
-        this.velocity.x *= 0.99; // x 轴速度逐渐减小
-        this.velocity.y *= 0.99; // y 轴速度逐渐减小，模拟阻力
-        this.velocity.y += 0.1; // 模拟重力影响
+        this.velocity.x *= 0.99; 
+        this.velocity.y *= 0.99;
         this.x += this.velocity.x;
         this.y += this.velocity.y;
-        this.alpha -= 0.005; // 逐渐减少不透明度，模拟烟花消散
+        this.alpha -= this.decay; // 逐渐减少粒子的不透明度
+    }
+}
+
+class Firework {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.particles = []; // 爆炸生成的粒子数组
+        this.exploded = false;
+        this.velocity = { x: 0, y: -Math.random() * 3 - 4 }; // 上升速度
+    }
+
+    explode() {
+        for (let i = 0; i < 100; i++) { // 创建100个粒子模拟爆炸效果
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 6 + 2; // 粒子速度
+            this.particles.push(new Particle(this.x, this.y, 5, `hsl(${Math.random() * 360}, 50%, 50%)`, {
+                x: Math.cos(angle) * speed,
+                y: Math.sin(angle) * speed
+            }));
+        }
+    }
+
+    update() {
+        if (!this.exploded) {
+            this.y += this.velocity.y;
+            this.draw();
+
+            // 确定爆炸的高度点，至少上升超过页面高度的40%，不能超过页面的82%
+            const explodeHeightMin = canvas.height - canvas.height * 0.82;
+            const explodeHeightMax = canvas.height - canvas.height * 0.4;
+
+            if (this.y < explodeHeightMax && this.y > explodeHeightMin) {
+                this.exploded = true;
+                this.explode();
+            }
+        } else {
+            this.particles.forEach(particle => particle.update());
+            this.particles = this.particles.filter(particle => particle.alpha > 0); // 移除不透明度为0的粒子
+        }
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
     }
 }
 
@@ -56,40 +106,31 @@ const canvas = document.getElementById('fireworksCanvas');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-let particles = [];
 
-function init() {
-    particles = [];
-}
+let fireworks = [];
 
 function animate() {
     requestAnimationFrame(animate);
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // 使用半透明覆盖创建拖尾效果
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    particles.forEach((particle, index) => {
-        if (particle.alpha <= 0) {
-            particles.splice(index, 1); // 当不透明度为0时移除粒子
-        } else {
-            particle.update();
+
+    fireworks.forEach((firework, index) => {
+        firework.update();
+        if (firework.exploded && firework.particles.length === 0) {
+            fireworks.splice(index, 1); // 移除已经爆炸且粒子消失的烟花
         }
     });
 }
 
-init();
-animate();
-
 function createFirework() {
-    const particleCount = 100; // 烟花粒子数量
-    for (let i = 0; i < particleCount; i++) {
-        const velocity = {
-            x: (Math.random() - 0.5) * (Math.random() * 6),
-            y: (Math.random() - 0.5) * (Math.random() * 6)
-        };
-        particles.push(new Particle(canvas.width / 2, canvas.height / 2, 5, `hsl(${Math.random() * 360}, 50%, 50%)`, velocity));
-    }
+    const x = Math.random() * canvas.width;
+    const color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+    fireworks.push(new Firework(x, canvas.height, color));
 }
 
 // 预览按钮添加事件监听器，点击时触发烟花
 document.getElementById('previewButton').addEventListener('click', function() {
     createFirework();
 });
+
+animate();
