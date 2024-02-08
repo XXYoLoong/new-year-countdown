@@ -24,14 +24,30 @@ body {
     border-radius: 5px; /* 圆角边框 */
 }
 
-#fireworks {
-    width: 100%;
-    height: 500px; /* 增加容器高度 */
-    background: #ffffff00;
-}
-
 #greetings {
     font-size: 32px; /* 增大字体大小 */
     text-align: center;
     margin-top: 20px; /* 增加上边距 */
+}
+
+#fireworksCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* 确保 canvas 在其他内容下方 */
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden; /* 防止滚动 */
+}
+
+/* 更新其他元素的样式以适应新布局 */
+#countdown, #greetings, #previewButton {
+    position: relative;
+    z-index: 2; /* 确保这些元素显示在 canvas 之上 */
 }

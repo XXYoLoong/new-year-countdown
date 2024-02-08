@@ -21,18 +21,16 @@ function updateCountdown() {
 
 const interval = setInterval(updateCountdown, 1000);
 
+// 更新 triggerFireworks 函数以使用新的烟花效果
 function triggerFireworks() {
-    particlesJS.load('fireworks', 'particles.json', function() {
-        console.log('callback - particles.js config loaded');
-    });
+    createFirework(); // 直接调用 createFirework 函数展示烟花
 
     setTimeout(() => {
-        document.getElementById('fireworks').style.display = 'none';
         document.getElementById('greetings').style.display = 'block';
-    }, 10000); // 假设烟花效果持续10秒
+    }, 10000); // 假设烟花效果持续10秒后显示新年祝福语
 }
 
-// 新增预览烟花效果按钮的事件监听
+// 如果需要，更新 'previewButton' 的事件监听器以触发新的烟花效果
 document.getElementById('previewButton').addEventListener('click', function() {
     triggerFireworks();
 });
