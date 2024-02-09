@@ -31,7 +31,7 @@ class Particle {
         this.alpha -= this.decay; // 更新粒子的透明度
         if (this.alpha <= this.decay) {
             this.alpha = 0; // 当透明度小于衰减速率时，将透明度设置为0
-        }：
+        }
         this.draw(); // 绘制更新后的粒子
     }
 
@@ -109,6 +109,7 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 let fireworks = []; // 存储所有烟花的数组
+let isLaunching = false; // 标记是否正在启动烟花
 
 // 动画循环函数，用于不断更新画布上的内容
 function animate() {
@@ -136,38 +137,24 @@ function createFirework() {
     fireworks.push(new Firework(x, y, color, riseSpeed, particleSize));
 }
 
-function launchFireworks() {
-    const initialFireworks = 10; // 第一次触发时的烟花数量
+// 触发烟花效果的函数
+function triggerFireworks(fireworksCount = 50, intervalDuration = 1000) {
+    if (isLaunching) return; // 如果已经在启动烟花，则直接返回
+    isLaunching = true; // 标记正在启动烟花
 
-    // 立即生成初始数量的烟花粒子
-    for (let i = 0; i < initialFireworks; i++) {
-        createFirework();
+    for (let i = 0; i < fireworksCount; i++) {
+        setTimeout(createFirework, i * (intervalDuration / fireworksCount));
     }
 
-    // 定时生成新的烟花粒子
-    const interval = setInterval(() => {
-        const newFireworksPerInterval = 50; // 每次定时生成的新烟花数量
-
-        // 每次定时生成多个新烟花
-        for (let i = 0; i < newFireworksPerInterval; i++) {
-            createFirework();
-        }
-
-        // 可以在这里添加逻辑来停止生成新的烟花粒子，例如设置一个生成烟花的总数限制
-    }, 1000); // 每隔1秒生成新的烟花粒子
+    // 在一定时间后重置 isLaunching 标记，以便可以再次触发烟花
+    setTimeout(() => {
+        isLaunching = false;
+    }, intervalDuration);
 }
 
 // 为预览按钮添加点击事件监听器，用于测试烟花效果
 document.getElementById('previewButton').addEventListener('click', launchFireworks);
 
-// 触发烟花效果的函数，用于在特定条件下（如倒计时结束）启动一系列烟花
-function triggerFireworks() {
-    const fireworksCount = 5; // 定义触发的烟花数量
-    for (let i = 0; i < fireworksCount; i++) {
-        // 每隔一秒触发一个烟花，创建连续的烟花效果
-        setTimeout(createFirework, i * 1000);
-    }
-}
 
 // 倒计时逻辑，假设倒计时结束后触发烟花
 const countdownElement = document.getElementById('countdown');
