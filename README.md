@@ -15,7 +15,7 @@
 ## 🚀 快速开始
 想要体验倒计时和烟花效果，请访问 [GitHub Pages链接](https://username.github.io/new-year-countdown)。
 
-### 本地运行
+## 本地运行
 1. 克隆仓库到本地：
 git clone https://github.com/username/new-year-countdown.git
 2. 在本地服务器上运行 `index.html` 文件，或者直接用浏览器打开它。
