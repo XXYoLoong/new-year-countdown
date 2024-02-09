@@ -7,41 +7,32 @@ body, html {
 }
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: '宋体', sans-serif; /* 使用宋体字体 */
+    position: relative; /* 确保z-index生效 */
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 背景图片位于下层 */
     background-image: url('assets/a.png');
     background-size: cover; 
     background-position: center; /* 确保背景图片居中显示 */
 }
 
 #countdown, #greetings, #previewButton {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 居中显示 */
     z-index: 2; /* 确保这些元素在canvas之上 */
-}
-
-#countdown {
+    text-align: center; /* 文字居中 */
+    color: #fff; /* 文字颜色设置为白色 */
     font-size: 36px; /* 调整字体大小确保可见 */
-    text-align: center;
-    margin: 50px 0;
-    color: #fff; /* 如果背景是暗色的，设置为白色或其他明亮的颜色 */
-}
-
-#previewButton {
-    display: block;
-    width: 200px;
-    margin: 20px auto;
-    padding: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-#greetings {
-    font-size: 32px;
-    text-align: center;
-    margin-top: 20px;
+    margin: 0; /* 移除默认的边距 */
 }
 
 #fireworksCanvas {
@@ -53,4 +44,33 @@ body {
     height: 100%;
     z-index: 1;
     pointer-events: none; /* 允许鼠标事件穿透canvas */
+}
+
+#header {
+    position: absolute;
+    top: 10px; /* 调整到顶部 */
+    right: 10px; /* 调整到最右边 */
+    color: #fff; /* 文字颜色设置为白色 */
+    z-index: 2; /* 确保这些元素在canvas之上 */
+}
+
+#footer {
+    position: absolute;
+    bottom: 10px; /* 调整到底部 */
+    left: 10px; /* 调整到最左边 */
+    color: #fff; /* 文字颜色设置为白色 */
+    z-index: 2; /* 确保这些元素在canvas之上 */
+}
+
+#footer a {
+    color: white;
+    text-decoration: none; /* 如果需要去除下划线的话 */
+}
+
+
+/* 媒体查询：适应不同设备 */
+@media only screen and (max-width: 600px) {
+    #countdown, #greetings {
+        font-size: 24px; /* 在小屏幕上调整字体大小 */
+    }
 }
