@@ -153,12 +153,9 @@ function triggerFireworks(fireworksCount = 50, intervalDuration = 1000) {
 }
 
 // 为预览按钮添加点击事件监听器，用于测试烟花效果
-document.getElementById('previewButton').addEventListener('click', launchFireworks);
+document.getElementById('previewButton').addEventListener('click', () => triggerFireworks(50, 5000));
 
-
-// 倒计时逻辑，假设倒计时结束后触发烟花
-const countdownElement = document.getElementById('countdown');
-const targetDate = new Date('Feb 9, 2024 23:59:59').getTime();
+let interval; // 将 interval 变量定义在外部，以便在 updateCountdown 函数内部访问
 
 // 倒计时更新函数，用于显示距离目标日期的时间并在到达时触发烟花
 function updateCountdown() {
@@ -176,10 +173,10 @@ function updateCountdown() {
     if (distance < 0) {
         clearInterval(interval); // 停止倒计时更新
         countdownElement.style.display = 'none'; // 隐藏倒计时显示
-        launchFireworks(); // 使用 launchFireworks 函数触发烟花效果
+        triggerFireworks(100, 10000); // 使用 triggerFireworks 函数触发烟花效果
     }
 }
 
-const interval = setInterval(updateCountdown, 1000); // 每秒更新倒计时
+interval = setInterval(updateCountdown, 1000); // 每秒更新倒计时
 
 animate(); // 开始动画循环
