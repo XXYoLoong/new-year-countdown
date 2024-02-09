@@ -146,7 +146,7 @@ function launchFireworks() {
 
     // 定时生成新的烟花粒子
     const interval = setInterval(() => {
-        const newFireworksPerInterval = 5; // 每次定时生成的新烟花数量
+        const newFireworksPerInterval = 50; // 每次定时生成的新烟花数量
 
         // 每次定时生成多个新烟花
         for (let i = 0; i < newFireworksPerInterval; i++) {
