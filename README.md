@@ -13,11 +13,11 @@
 - JavaScript：实现倒计时功能和烟花动画的动态效果。
 
 ## 🚀 快速开始
-想要体验倒计时和烟花效果，请访问 [GitHub Pages链接](https://username.github.io/new-year-countdown)。
+想要体验倒计时和烟花效果，请访问 [GitHub Pages链接](https://yolongchayun.github.io/new-year-countdown/)。
 
-## 本地运行
+## ↓ 本地运行
 1. 克隆仓库到本地：
-git clone https://github.com/username/new-year-countdown.git
+git clone git@github.com:YoLongChayun/new-year-countdown.git
 2. 在本地服务器上运行 `index.html` 文件，或者直接用浏览器打开它。
 
 ## 🤝 如何贡献
@@ -31,7 +31,7 @@ git clone https://github.com/username/new-year-countdown.git
 本项目采用 [MIT 许可证](LICENSE)。有关更多信息，请查看许可证文件。
 
 ## 💡 灵感来源
-这个项目的灵感来源于世界各地对新年的庆祝和人们对新开始的期待。希望这个小项目能为您的新年添上一份喜悦！
+这个项目的灵感来源于中国对新年的庆祝和人们对新年的美好祝愿。希望这个小项目能为您的新年添上一份喜悦！
 
 ---
 
