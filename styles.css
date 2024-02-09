@@ -19,9 +19,10 @@ body {
 }
 
 #countdown {
-    font-size: 36px;
+    font-size: 36px; /* 调整字体大小确保可见 */
     text-align: center;
     margin: 50px 0;
+    color: #fff; /* 如果背景是暗色的，设置为白色或其他明亮的颜色 */
 }
 
 #previewButton {

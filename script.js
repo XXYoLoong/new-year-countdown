@@ -1,3 +1,5 @@
+let interval; // 将 interval 变量定义在外部，以便在 updateCountdown 函数内部访问
+
 // 粒子类定义
 class Particle {
     // 粒子构造函数
@@ -155,28 +157,50 @@ function triggerFireworks(fireworksCount = 50, intervalDuration = 1000) {
 // 为预览按钮添加点击事件监听器，用于测试烟花效果
 document.getElementById('previewButton').addEventListener('click', () => triggerFireworks(50, 5000));
 
-let interval; // 将 interval 变量定义在外部，以便在 updateCountdown 函数内部访问
+const countdownElement = document.getElementById('countdown');
+// 设置目标日期为2024年2月9日23:59:59
+const targetDate = new Date('2024-02-09T23:59:59').getTime();
 
-// 倒计时更新函数，用于显示距离目标日期的时间并在到达时触发烟花
+// 更新倒计时的函数
 function updateCountdown() {
     const now = new Date().getTime(); // 获取当前时间
-    const distance = targetDate - now; // 计算距离目标日期的时间差
-    // 计算天、小时、分钟和秒
+    const distance = targetDate - now; // 计算目标日期与当前日期的差距（毫秒）
+
+    // 将时间差转换为天、小时、分钟和秒
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    // 更新倒计时显示
-    countdownElement.innerHTML = `距离新年还有：${days}天${hours}小时${minutes}分${seconds}秒`;
 
-    // 如果时间差小于0，说明目标日期已到达
+    // 更新页面上的倒计时显示
+    countdownElement.innerHTML = `距离新年还有：${days}天 ${hours}小时 ${minutes}分 ${seconds}秒`;
+
+    // 如果时间差小于0，说明目标日期已经到达
     if (distance < 0) {
-        clearInterval(interval); // 停止倒计时更新
-        countdownElement.style.display = 'none'; // 隐藏倒计时显示
-        triggerFireworks(100, 10000); // 使用 triggerFireworks 函数触发烟花效果
+        clearInterval(interval); // 停止倒计时
+        countdownElement.style.display = 'none'; // 隐藏倒计时元素
+        triggerFireworks(100, 10000); // 触发烟花效果，参数分别表示烟花数量和持续时间（毫秒）
     }
 }
 
-interval = setInterval(updateCountdown, 1000); // 每秒更新倒计时
+// 使用 setInterval 每秒调用一次 updateCountdown 函数，以更新倒计时
+interval = setInterval(updateCountdown, 1000);
 
-animate(); // 开始动画循环
+// 触发烟花效果的函数，参数为烟花数量和烟花展示的总时长（毫秒）
+function triggerFireworks(fireworksCount = 50, intervalDuration = 1000) {
+    if (isLaunching) return; // 如果烟花已经在触发中，则不再触发
+    isLaunching = true; // 标记烟花开始触发
+
+    for (let i = 0; i < fireworksCount; i++) {
+        // 以间隔平均分布的方式触发每个烟花
+        setTimeout(createFirework, i * (intervalDuration / fireworksCount));
+    }
+
+    // 一段时间后重置触发标记，允许再次触发烟花
+    setTimeout(() => {
+        isLaunching = false;
+    }, intervalDuration);
+}
+
+// 为预览按钮添加点击事件，点击时触发烟花效果
+document.getElementById('previewButton').addEventListener('click', () => triggerFireworks(50, 5000));
