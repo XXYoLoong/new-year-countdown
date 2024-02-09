@@ -31,7 +31,7 @@ class Particle {
         this.alpha -= this.decay; // 更新粒子的透明度
         if (this.alpha <= this.decay) {
             this.alpha = 0; // 当透明度小于衰减速率时，将透明度设置为0
-        }
+        }：
         this.draw(); // 绘制更新后的粒子
     }
 
@@ -57,7 +57,7 @@ class Firework {
 
     // 烟花爆炸方法
     explode() {
-        const particleCount = 100 + Math.random() * 1000; // 确定爆炸生成的粒子数量
+        const particleCount = 200 + Math.random() * 1000; // 确定爆炸生成的粒子数量
         for (let i = 0; i < particleCount; i++) {
             const speed = Math.random() * 5 + 2; // 粒子速度
             const decay = Math.random() * 0.04 + 0.01; // 粒子衰减速率
@@ -77,10 +77,11 @@ class Firework {
             this.x += this.velocity.x; // 更新烟花的x坐标，模拟风效果
             this.draw(); // 绘制上升中的烟花
 
-            // 判断烟花是否达到爆炸高度
-            if (this.y < canvas.height * (0.18 + Math.random() * 0.22)) {
-                this.exploded = true; // 标记烟花为已爆炸
-                this.explode(); // 触发烟花爆炸
+             // 通过增加随机性来调整爆炸高度
+        const explodeHeight = canvas.height * (0.5 + Math.random() * 0.3); // 示例：最低高度为画布高度的 50%，最高为 80%
+            if (this.y < explodeHeight) {
+                this.exploded = true;
+                this.explode();
             }
         } else {
             // 更新所有粒子的状态，并移除已经“死亡”的粒子
@@ -145,9 +146,15 @@ function launchFireworks() {
 
     // 定时生成新的烟花粒子
     const interval = setInterval(() => {
-        createFirework();
+        const newFireworksPerInterval = 5; // 每次定时生成的新烟花数量
+
+        // 每次定时生成多个新烟花
+        for (let i = 0; i < newFireworksPerInterval; i++) {
+            createFirework();
+        }
+
         // 可以在这里添加逻辑来停止生成新的烟花粒子，例如设置一个生成烟花的总数限制
-    }, 1000); // 每隔1秒生成一个新的烟花粒子
+    }, 1000); // 每隔1秒生成新的烟花粒子
 }
 
 // 为预览按钮添加点击事件监听器，用于测试烟花效果
