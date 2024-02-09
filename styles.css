@@ -8,7 +8,7 @@ body, html {
 
 body {
     font-family: 'Arial', sans-serif;
-    background-image: url('../new-year-countdown/assets/a.png');
+    background-image: url('assets/a.png');
     background-size: cover; 
     background-position: center; /* 确保背景图片居中显示 */
 }
